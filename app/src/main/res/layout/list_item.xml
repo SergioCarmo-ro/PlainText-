@@ -7,18 +7,20 @@
         android:id="@+id/itemIcon" android:layout_width="50dp" android:layout_height="50dp"
         android:layout_marginStart="20dp" app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_item_key" />
+        app:srcCompat="@drawable/ic_item_key"
+        android:contentDescription="@string/item_icon_desc" />
     <TextView
         android:id="@+id/itemName" android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_marginStart="20dp" android:text="TextView" android:textColor="#39393a" android:textSize="24sp"
+        android:layout_marginStart="20dp" android:textColor="#39393a" android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/itemLogin" app:layout_constraintStart_toEndOf="@+id/itemIcon"
         app:layout_constraintTop_toTopOf="@+id/itemIcon" />
     <TextView
         android:id="@+id/itemLogin" android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="TextView" android:textColor="#39393a" android:textSize="14sp"
+        android:textColor="#39393a" android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/itemIcon" app:layout_constraintStart_toStartOf="@+id/itemName" />
     <ImageView
         android:id="@+id/itemArrow" android:layout_width="55dp" android:layout_height="55dp"
         app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" app:srcCompat="@drawable/ic_right_arrow" />
+        app:layout_constraintTop_toTopOf="parent" app:srcCompat="@drawable/ic_right_arrow"
+        android:contentDescription="@string/item_arrow_desc" />
 </androidx.constraintlayout.widget.ConstraintLayout>

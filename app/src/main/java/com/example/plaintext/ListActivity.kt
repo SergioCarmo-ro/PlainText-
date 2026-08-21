@@ -7,8 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plaintext.dao.PasswordDAO
@@ -22,7 +25,14 @@ class ListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(R.layout.activity_list)
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         recyclerView = findViewById(R.id.list_recycler)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -31,7 +41,7 @@ class ListActivity : AppCompatActivity() {
         adapter = PasswordsAdapter(this)
         recyclerView.adapter = adapter
 
-        findViewById<FloatingActionButton>(R.id.fabAddPassword).setOnClickListener {
+        findViewById<FloatingActionButton>(R.id.buttonAdd).setOnClickListener {
             val intent = Intent(this, EditActivity::class.java)
             startActivity(intent)
         }

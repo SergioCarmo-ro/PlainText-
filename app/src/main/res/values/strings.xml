@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">PlainText</string>
     <string name="login" translatable="false">Digite suas Credenciais para Continuar</string>
+    <string name="add_password">Adicionar Senha</string>
+    <string name="item_icon_desc">Ícone da senha</string>
+    <string name="item_arrow_desc">Abrir detalhes</string>
+    <string name="site_name_hint">Nome (Site/App)</string>
+    <string name="login_hint">Login</string>
+    <string name="password_hint">Senha</string>
+    <string name="notes_hint">Notas</string>
+    <string name="save_button">Salvar</string>
 
 </resources>
