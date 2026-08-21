@@ -78,8 +78,8 @@ class ListActivity : AppCompatActivity() {
     class PasswordsViewHolder(v: View, private val context: Context) : 
         RecyclerView.ViewHolder(v), View.OnClickListener {
         
-        val name: TextView = v.findViewById(R.id.textViewName)
-        val login: TextView = v.findViewById(R.id.textViewLogin)
+        val name: TextView = v.findViewById(R.id.itemName)
+        val login: TextView = v.findViewById(R.id.itemLogin)
         var id: Int = -1
 
         init {

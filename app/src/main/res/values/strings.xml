@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">PlainText</string>
+    <string name="app_name">PlainText</string>
     <string name="login" translatable="false">Digite suas Credenciais para Continuar</string>
 
 </resources>
