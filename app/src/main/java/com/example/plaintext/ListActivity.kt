@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plaintext.dao.PasswordDAO
@@ -50,7 +51,6 @@ class ListActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         adapter.update()
-        adapter.notifyDataSetChanged()
     }
 
     // Adaptador com as características solicitadas
@@ -63,7 +63,20 @@ class ListActivity : AppCompatActivity() {
         }
 
         fun update() {
-            passwords = passwordDAO.getList()
+            val newPasswords = passwordDAO.getList()
+            val diffResult = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
+                override fun getOldListSize(): Int = passwords.size
+                override fun getNewListSize(): Int = newPasswords.size
+                override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                    return passwords[oldItemPosition].id == newPasswords[newItemPosition].id
+                }
+                override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                    return passwords[oldItemPosition] == newPasswords[newItemPosition]
+                }
+            })
+            passwords.clear()
+            passwords.addAll(newPasswords)
+            diffResult.dispatchUpdatesTo(this)
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PasswordsViewHolder {
