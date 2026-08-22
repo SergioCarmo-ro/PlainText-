@@ -41,7 +41,8 @@ class EditActivity : AppCompatActivity() {
         currentPasswordId = intent.getIntExtra("PASSWORD_ID", -1)
 
         if (currentPasswordId != -1) {
-            val password = PasswordDAO.get(currentPasswordId)
+            val passwordDAO = PasswordDAO(this)
+            val password = passwordDAO.get(currentPasswordId)
             password?.let {
                 editTextName.setText(it.name)
                 editTextLogin.setText(it.login)
@@ -68,10 +69,12 @@ class EditActivity : AppCompatActivity() {
 
         if (currentPasswordId == -1) {
             val newPassword = Password(name = name, login = login, password = passwordText, notes = notes)
-            PasswordDAO.add(this, newPassword)
+            val passwordDAO = PasswordDAO(this)
+            passwordDAO.add(newPassword)
         } else {
             val updatedPassword = Password(id = currentPasswordId, name = name, login = login, password = passwordText, notes = notes)
-            PasswordDAO.update(this, updatedPassword)
+            val passwordDAO = PasswordDAO(this)
+            passwordDAO.update(updatedPassword)
         }
         finish()
     }

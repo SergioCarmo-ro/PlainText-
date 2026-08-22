@@ -1,38 +1,78 @@
 package com.example.plaintext.dao
 
+import android.content.ContentValues
 import android.content.Context
 import android.widget.Toast
 import com.example.plaintext.model.Password
 
-class PasswordDAO {
-    companion object {
-        private val passwordsList = ArrayList<Password>()
+class PasswordDAO(private val context: Context) {
+    private val db = Database(context)
 
-        fun getList(): ArrayList<Password> {
-            if (passwordsList.size == 0) {
-                passwordsList.add(Password(0, "Facebook", "dovahkiin@gmail.com", "FusRoDah123", ""))
-                passwordsList.add(Password(1, "GMail", "dovahkiin", "Teste123", ""))
-                passwordsList.add(Password(2, "IComp", "dfrd@icomp.ufam.edu.br", "Java4242", "Mudar a senha!"))
-                passwordsList.add(Password(3, "Steam", "dovahkiin", "FusRoDah123", "Conta do Brasil"))
-            }
-            return passwordsList
+    fun getList(): ArrayList<Password> {
+        val list = ArrayList<Password>()
+        val readableDb = db.readableDatabase
+        val cursor = readableDb.rawQuery("SELECT * FROM passwords", null)
+        if (cursor.moveToFirst()) {
+            do {
+                list.add(Password(
+                    cursor.getInt(0),
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getString(3),
+                    cursor.getString(4)
+                ))
+            } while (cursor.moveToNext())
         }
+        cursor.close()
+        return list
+    }
 
-        fun add(context: Context, password: Password): Boolean {
-            password.id = passwordsList.size
-            passwordsList.add(password)
+    fun add(password: Password): Boolean {
+        val writableDb = db.writableDatabase
+        val values = ContentValues().apply {
+            put("name", password.name)
+            put("login", password.login)
+            put("password", password.password)
+            put("notes", password.notes)
+        }
+        val id = writableDb.insert("passwords", null, values)
+        if (id != -1L) {
             Toast.makeText(context, "Senha salva!", Toast.LENGTH_SHORT).show()
             return true
         }
+        return false
+    }
 
-        fun update(context: Context, password: Password): Boolean {
-            passwordsList[password.id] = password
+    fun update(password: Password): Boolean {
+        val writableDb = db.writableDatabase
+        val values = ContentValues().apply {
+            put("name", password.name)
+            put("login", password.login)
+            put("password", password.password)
+            put("notes", password.notes)
+        }
+        val rows = writableDb.update("passwords", values, "id = ?", arrayOf(password.id.toString()))
+        if (rows > 0) {
             Toast.makeText(context, "Senha atualizada!", Toast.LENGTH_SHORT).show()
             return true
         }
+        return false
+    }
 
-        fun get(id: Int): Password {
-            return passwordsList[id]
+    fun get(id: Int): Password? {
+        val readableDb = db.readableDatabase
+        val cursor = readableDb.rawQuery("SELECT * FROM passwords WHERE id = ?", arrayOf(id.toString()))
+        var password: Password? = null
+        if (cursor.moveToFirst()) {
+            password = Password(
+                cursor.getInt(0),
+                cursor.getString(1),
+                cursor.getString(2),
+                cursor.getString(3),
+                cursor.getString(4)
+            )
         }
+        cursor.close()
+        return password
     }
 }

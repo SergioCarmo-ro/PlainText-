@@ -56,14 +56,14 @@ class ListActivity : AppCompatActivity() {
     // Adaptador com as características solicitadas
     class PasswordsAdapter(private val context: Context) : RecyclerView.Adapter<PasswordsViewHolder>() {
         private var passwords = ArrayList<Password>()
-        private val passwordDAO = PasswordDAO()
+        private val passwordDAO = PasswordDAO(context)
 
         init {
             update()
         }
 
         fun update() {
-            passwords = PasswordDAO.getList()
+            passwords = passwordDAO.getList()
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PasswordsViewHolder {
